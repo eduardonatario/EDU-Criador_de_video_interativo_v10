@@ -1,0 +1,8 @@
+{
+  "name": "Remix Criador de vídeo interativo v8_final_no_Github_V9",
+  "description": "Criador de vídeo interativo com painel de administração e gerador/exportador de código HTML standalone.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
