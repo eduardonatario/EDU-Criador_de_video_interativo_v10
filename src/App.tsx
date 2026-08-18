@@ -501,11 +501,41 @@ export default function App() {
 </html>`;
   };
 
-  const handleCopyHtml = () => {
+  const copyToClipboard = async (text: string): Promise<boolean> => {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (err) {
+      console.warn('Clipboard API error, attempting fallback copy method:', err);
+    }
+
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      return successful;
+    } catch (err) {
+      console.error('Fallback copy method failed:', err);
+      return false;
+    }
+  };
+
+  const handleCopyHtml = async () => {
     const htmlCode = generateStandaloneHtml();
-    navigator.clipboard.writeText(htmlCode);
-    setCopiedHtml(true);
-    setTimeout(() => setCopiedHtml(false), 2000);
+    const success = await copyToClipboard(htmlCode);
+    if (success) {
+      setCopiedHtml(true);
+      setTimeout(() => setCopiedHtml(false), 2000);
+    }
   };
 
   const handleDownloadHtml = () => {
