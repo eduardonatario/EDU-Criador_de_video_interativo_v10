@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Settings, Play, Pause, RotateCcw, CheckCircle, XCircle, Video, Clock, HelpCircle, Eye, Download, Copy, Check, Code2, Sun, Moon } from 'lucide-react';
+import { Settings, Play, Pause, RotateCcw, CheckCircle, XCircle, Video, Clock, HelpCircle, Eye, Download, Copy, Check, Code2, Sun, Moon, Sparkles } from 'lucide-react';
 import { secondsToTimecode, timecodeToSeconds } from './utils/timecode';
 import { parseVideoUrl } from './utils/urlParser';
 
@@ -124,23 +124,35 @@ export default function App() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vídeo Interativo</title>
   <style>
+    /* Reset & Transparência 100% - Permite que o fundo original do site hospedeiro apareça normalmente */
     html, body {
-      margin: 0;
-      padding: 0;
-      background-color: #020617;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: transparent !important;
+      background-color: transparent !important;
       color: #f8fafc;
+      width: 100%;
     }
     body.ivp-standalone-page {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding: 16px;
+      min-height: auto;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+      background-color: transparent !important;
     }
+    /* Contêiner Externo do Player - 100% Transparente, sem margens ou faixas coloridas */
     .ivp-embed-wrapper {
       width: 100%;
       max-width: 900px;
-      margin: 0 auto;
+      margin: 0 auto !important;
+      padding: 0 !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
       display: block;
       clear: both;
       position: relative;
@@ -153,17 +165,19 @@ export default function App() {
       margin: 0;
       padding: 0;
     }
+    /* Contêiner Principal do Player - background: transparent sem bordas ou faixas */
     .ivp-embed-wrapper .ivp-video-container {
       position: relative;
       width: 100%;
       max-width: 900px;
       margin: 0 auto;
       aspect-ratio: 16 / 9;
-      background-color: #000;
+      background: transparent !important;
+      background-color: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      border: 1px solid #1e293b;
     }
     .ivp-embed-wrapper video {
       width: 100%;
@@ -172,6 +186,10 @@ export default function App() {
       cursor: pointer;
       transition: filter 0.3s ease;
       display: block;
+      background: transparent !important;
+      background-color: transparent !important;
+      border: none !important;
+      outline: none !important;
     }
     .ivp-embed-wrapper video.ivp-paused-blur {
       filter: blur(2px);
@@ -274,9 +292,10 @@ export default function App() {
     .ivp-embed-wrapper .ivp-play-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(1px);
-      -webkit-backdrop-filter: blur(1px);
+      background: transparent !important;
+      background-color: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -296,7 +315,7 @@ export default function App() {
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
       transition: transform 0.2s ease;
     }
     .ivp-embed-wrapper .ivp-play-btn:hover {
@@ -310,11 +329,12 @@ export default function App() {
     }
   </style>
 </head>
-<body class="ivp-standalone-page">
+<body class="ivp-standalone-page" style="background: transparent !important; background-color: transparent !important; margin: 0; padding: 0;">
 
-  <div class="ivp-embed-wrapper" id="ivpPlayerRoot">
-    <div class="ivp-video-container">
-      <video id="ivp-interactiveVideo" src="${safeVideoUrl}" playsinline webkit-playsinline preload="auto">
+  <!-- Contêiner Externo e Principal com fundo 100% transparente -->
+  <div class="ivp-embed-wrapper" id="ivpPlayerRoot" style="background: transparent !important; background-color: transparent !important; border: none; box-shadow: none;">
+    <div class="ivp-video-container" style="background: transparent !important; background-color: transparent !important; border: none; box-shadow: none;">
+      <video id="ivp-interactiveVideo" src="${safeVideoUrl}" playsinline webkit-playsinline preload="auto" style="background: transparent !important; background-color: transparent !important; border: none; outline: none;">
         <source src="${safeVideoUrl}" type="video/mp4">
       </video>
 
@@ -1266,7 +1286,7 @@ export default function App() {
             </div>
 
             {/* Action Buttons Row */}
-            <div className="pt-3 flex flex-wrap items-center justify-end gap-3">
+            <div className="pt-2 flex flex-wrap items-center justify-end gap-3">
               <button
                 onClick={handleDownloadHtml}
                 className="flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-500 active:scale-95 transition shadow-lg shadow-blue-600/20 cursor-pointer"
@@ -1299,7 +1319,7 @@ export default function App() {
           <div className="space-y-4">
             
             {/* Player Stage Container */}
-            <div className="relative rounded-2xl overflow-hidden bg-black border border-slate-800 shadow-2xl aspect-video w-full group">
+            <div className="relative rounded-2xl overflow-hidden bg-transparent border border-slate-800/60 shadow-2xl aspect-video w-full group">
               
               {/* OVERLAY SOBRE A TELA QUANDO CHEGA NO TIMECODE */}
               {showOverlay && (

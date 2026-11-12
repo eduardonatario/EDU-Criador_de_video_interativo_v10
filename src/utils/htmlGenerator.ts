@@ -43,15 +43,16 @@ function generateIframeEmbed(config: VideoConfig): string {
   const fullHtml = generateStandalonePage(config, parsed, theme);
   const safeSrcDoc = fullHtml.replace(/"/g, '&quot;');
 
-  return `<!-- Embed iFrame Isolado de Vídeo Interativo -->
-<div style="position: relative; width: 100%; max-width: ${config.maxWidth || '860px'}; margin: 0 auto; aspect-ratio: 16/9; overflow: hidden; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); background: #0f172a;">
+  return `<!-- Embed iFrame Isolado de Vídeo Interativo (100% Transparente) -->
+<div style="position: relative; width: 100%; max-width: ${config.maxWidth || '860px'}; margin: 0 auto; aspect-ratio: 16/9; overflow: hidden; border-radius: 16px; background: transparent !important;">
   <iframe 
     srcdoc="${safeSrcDoc}" 
     title="${escapeHtml(config.title || 'Player de Vídeo Interativo')}" 
     frameborder="0" 
     allow="autoplay; fullscreen; picture-in-picture" 
+    allowtransparency="true"
     allowfullscreen
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;">
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: transparent !important;">
   </iframe>
 </div>`;
 }
@@ -91,25 +92,35 @@ function generateStandalonePage(
     }
 
     html, body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-dark);
+      margin: 0 !important;
+      padding: 0 !important;
+      background: transparent !important;
+      background-color: transparent !important;
       color: var(--text-main);
+      width: 100%;
     }
 
     body.ivp-standalone-page {
-      min-height: 100vh;
+      min-height: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+      background-color: transparent !important;
     }
 
     .ivp-player-root {
       width: 100%;
       max-width: ${config.maxWidth || '860px'};
-      margin: 0 auto;
+      margin: 0 auto !important;
+      padding: 0 !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
       display: block;
       clear: both;
       box-sizing: border-box;
@@ -127,19 +138,22 @@ function generateStandalonePage(
       width: 100%;
       max-width: ${config.maxWidth || '860px'};
       margin: 0 auto;
+      background: transparent !important;
+      background-color: transparent !important;
     }
 
     .ivp-player-root .ivp-video-card {
-      background: var(--bg-dark);
+      background: transparent !important;
+      background-color: transparent !important;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: none !important;
+      border: none !important;
     }
 
     .ivp-player-root .ivp-video-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 16px 20px;
+      background: transparent !important;
     }
 
     .ivp-player-root .ivp-video-title {
@@ -158,12 +172,15 @@ function generateStandalonePage(
     .ivp-player-root .ivp-player-wrapper {
       position: relative;
       width: 100%;
-      background: #000;
+      background: transparent !important;
+      background-color: transparent !important;
       aspect-ratio: ${config.aspectRatio ? config.aspectRatio.replace(':', '/') : '16/9'};
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      border: none !important;
+      box-shadow: none !important;
     }
 
     .ivp-player-root video {
@@ -171,6 +188,10 @@ function generateStandalonePage(
       height: 100%;
       object-fit: contain;
       display: block;
+      background: transparent !important;
+      background-color: transparent !important;
+      border: none !important;
+      outline: none !important;
     }
 
     .ivp-player-root iframe {
@@ -405,18 +426,18 @@ function generateStandalonePage(
     }
   </style>
 </head>
-<body class="ivp-standalone-page">
+<body class="ivp-standalone-page" style="background: transparent !important; background-color: transparent !important; margin: 0; padding: 0;">
 
-  <div class="ivp-player-root">
-    <div class="ivp-container">
-      <div class="ivp-video-card">
+  <div class="ivp-player-root" style="background: transparent !important; background-color: transparent !important; border: none; box-shadow: none;">
+    <div class="ivp-container" style="background: transparent !important; background-color: transparent !important;">
+      <div class="ivp-video-card" style="background: transparent !important; background-color: transparent !important; border: none; box-shadow: none;">
         ${config.title || config.description ? `
-        <div class="ivp-video-header">
+        <div class="ivp-video-header" style="background: transparent !important;">
           ${config.title ? `<h1 class="ivp-video-title">${escapeHtml(config.title)}</h1>` : ''}
           ${config.description ? `<p class="ivp-video-description">${escapeHtml(config.description)}</p>` : ''}
         </div>` : ''}
 
-      <div class="ivp-player-wrapper" id="ivp-playerWrapper">
+      <div class="ivp-player-wrapper" id="ivp-playerWrapper" style="background: transparent !important; background-color: transparent !important; border: none; box-shadow: none;">
         ${isEmbedType ? `
           <iframe 
             src="${parsed.embedUrl}${parsed.embedUrl.includes('?') ? '&' : '?'}autoplay=${config.autoplay ? 1 : 0}" 
